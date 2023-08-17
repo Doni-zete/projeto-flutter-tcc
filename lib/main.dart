@@ -1,5 +1,6 @@
 import 'package:cripto_github/pages/cotacao_page.dart';
-import 'package:cripto_github/pages/home_page.dart';
+import 'package:cripto_github/pages/porcentagem_page.dart';
+import 'package:cripto_github/widgets/home_page.dart';
 import 'package:cripto_github/pages/login_page.dart';
 import 'package:cripto_github/pages/registrar_page.dart';
 
@@ -24,12 +25,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
+      initialRoute: '/home',
       routes: {
-        '/login': (context) => LoginPage(),
         '/home': (context) => HomeScreen(),
         '/registrar': (context) => RegistroPage(),
+        '/porcentagem': (context) => PorcentagemMoedasPage(
+              listaMoeda: [],
+            ),
         '/cotacao': (context) => CotacaoPage(),
+        '/login': (context) => LoginPage(),
       },
       theme: ThemeData(hintColor: Colors.amber, primaryColor: Colors.white),
     );
