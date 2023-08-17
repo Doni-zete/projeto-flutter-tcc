@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "93998583325",
+    "firebase_url": "https://cripto-github-16d7e-default-rtdb.firebaseio.com",
+    "project_id": "cripto-github-16d7e",
+    "storage_bucket": "cripto-github-16d7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93998583325:android:c3668af5ff4aca309340f4",
+        "android_client_info": {
+          "package_name": "com.example.cripto_git"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93998583325-qdn6iijlmmkv0p1f5duj24ancu3g2bdl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cripto_git",
+            "certificate_hash": "2960d2476045b432bd19d95c5d6c974483fa4cd9"
+          }
+        },
+        {
+          "client_id": "93998583325-gttr10f6t8bu3iqatiijohktcin3bdqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlgqj4iMzM8bNnblmHwdEaNS3hCNPR_Yc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93998583325-32ie53curj1tgqtn7icstku8g5i2nlpv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93998583325-h9q0go7ha843nmk03ni1nt319tlcr4m6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.criptoGit"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93998583325:android:478ef4cefdc592cb9340f4",
+        "android_client_info": {
+          "package_name": "com.example.cripto_github"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93998583325-gttr10f6t8bu3iqatiijohktcin3bdqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlgqj4iMzM8bNnblmHwdEaNS3hCNPR_Yc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93998583325-32ie53curj1tgqtn7icstku8g5i2nlpv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93998583325-h9q0go7ha843nmk03ni1nt319tlcr4m6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.criptoGit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
