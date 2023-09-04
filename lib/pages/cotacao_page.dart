@@ -35,7 +35,7 @@ class _CotacaoPageState extends State<CotacaoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         backgroundColor: Color(0xFFFF7A00),
+        backgroundColor: Color(0xFFFF7A00),
         title: const Text('CoinMarketCap API'),
         centerTitle: true,
       ),
@@ -55,7 +55,7 @@ class _CotacaoPageState extends State<CotacaoPage> {
                   labelStyle: TextStyle(color: Colors.amber),
                   border: OutlineInputBorder(),
                 ),
-                style: const TextStyle(color: Colors.amber, fontSize: 25.0),
+                style: const TextStyle(color: Colors.amber, fontSize: 20.0),
                 onChanged: (value) => coinId = value,
                 onSubmitted: (value) => _getCoinValue(),
               ),
@@ -67,16 +67,19 @@ class _CotacaoPageState extends State<CotacaoPage> {
                   labelStyle: TextStyle(color: Colors.amber),
                   border: OutlineInputBorder(),
                 ),
-                style: const TextStyle(color: Colors.amber, fontSize: 25.0),
+                style: const TextStyle(color: Colors.amber, fontSize: 20),
                 onChanged: (value) => quantity = double.tryParse(value) ?? 0,
                 onSubmitted: (value) => _getCoinValue(),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _getCoinValue,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xffF79413),
+                ),
                 child: const Text('Buscar valor em USD'),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               Text(
                 coinValueInUSD > 0
                     ? 'Valor em USD: \$${(coinValueInUSD * quantity).toStringAsFixed(2)}'
