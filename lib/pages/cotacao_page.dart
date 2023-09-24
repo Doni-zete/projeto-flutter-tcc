@@ -12,22 +12,30 @@ class _CotacaoPageState extends State<CotacaoPage> {
   String coinId = '';
   double coinValueInUSD = 0;
   double quantity = 0;
+  String? coinImageUrl;
+  String errorMessage = '';
 
   void _getCoinValue() async {
     coinId = coinController.text.toUpperCase();
-    Map<dynamic, dynamic>? data = await getData(coinId);
+    Map<String, dynamic>? data = await getData(coinId);
+    String? coinImage = await getCoinImage(coinId);
 
     if (data != null) {
       setState(() {
         coinValueInUSD = data['data'][coinId]['quote']['USD']['price'] ?? 0.0;
         quantity = double.parse(quantityController.text);
+        coinImageUrl = coinImage;
+        errorMessage = '';
       });
     } else {
       setState(() {
         coinValueInUSD = 0;
         quantity = 0;
+        coinImageUrl = null;
+        errorMessage = coinId.isNotEmpty
+            ? 'Valor não encontrado ou inválido.'
+            : ''; // Define a mensagem de erro apenas se o usuário digitou algo
       });
-      print('Falha ao obter os dados.');
     }
   }
 
@@ -35,8 +43,8 @@ class _CotacaoPageState extends State<CotacaoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFFF7A00),
-        title: const Text('CoinMarketCap API'),
+        backgroundColor: const Color(0xFFFF7A00),
+        title: const Text('Cotação'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -45,9 +53,13 @@ class _CotacaoPageState extends State<CotacaoPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Icon(Icons.monetization_on_outlined,
-                  size: 120, color: Colors.orange),
-              const SizedBox(height: 20),
+              if (coinImageUrl != null)
+                Image.network(
+                  coinImageUrl!,
+                  width: 100,
+                  height: 100,
+                ),
+              const SizedBox(height: 30),
               TextField(
                 controller: coinController,
                 decoration: const InputDecoration(
@@ -71,19 +83,27 @@ class _CotacaoPageState extends State<CotacaoPage> {
                 onChanged: (value) => quantity = double.tryParse(value) ?? 0,
                 onSubmitted: (value) => _getCoinValue(),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: _getCoinValue,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xffF79413),
+                  backgroundColor: const Color(0xffF79413),
                 ),
-                child: const Text('Buscar valor em USD'),
+                child: const Text(
+                  'Buscar valor em USD',
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(height: 24),
               Text(
-                coinValueInUSD > 0
-                    ? 'Valor em USD: \$${(coinValueInUSD * quantity).toStringAsFixed(2)}'
-                    : 'Valor não encontrado ou inválido.',
+                errorMessage.isNotEmpty
+                    ? errorMessage
+                    : coinValueInUSD > 0
+                        ? 'Valor em USD: \$${(coinValueInUSD * quantity).toStringAsFixed(2)}'
+                        : '',
                 style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
