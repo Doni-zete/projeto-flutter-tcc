@@ -10,7 +10,8 @@ class LoginPage extends StatelessWidget {
     String password = _passwordController.text;
 
     try {
-      UserCredential authResult = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential authResult =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -55,9 +56,9 @@ class LoginPage extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 30),
           Image.asset(
-            'assets/checklist.png',
-            width: 100,
-            height: 100,
+            'assets/wallet-logo.png',
+            width: 170,
+            height: 170,
           ),
           const SizedBox(height: 16.0),
           Expanded(
@@ -76,6 +77,7 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: 12.0),
                     TextField(
                       controller: _passwordController,
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: "Senha",
                         border: OutlineInputBorder(),
@@ -83,19 +85,30 @@ class LoginPage extends StatelessWidget {
                       obscureText: true,
                     ),
                     const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: () => _login(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
+                    SizedBox(
+                      width: 320.0,
+                      child: ElevatedButton(
+                        onPressed: () => _login(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                        ),
+                        child: const Text(
+                          "Entrar",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                      child: const Text("Entrar"),
                     ),
                     const SizedBox(height: 8.0),
                     TextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/registrar');
                       },
-                      child: const Text("Precisa de uma conta?"),
+                      child: const Text(
+                        "Precisa de uma conta?",
+                      ),
                     ),
                   ],
                 ),
