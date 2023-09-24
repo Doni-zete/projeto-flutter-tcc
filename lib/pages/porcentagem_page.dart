@@ -1,49 +1,94 @@
 import 'package:flutter/material.dart';
-import 'package:cripto_github/models/moeda.dart'; // Certifique-se de importar corretamente o modelo Moeda
 
-class PorcentagemMoedasPage extends StatelessWidget {
-  final List<Moeda> listaMoeda; // Recebe a lista de moedas como parâmetro
+class PorcentagemPage extends StatelessWidget {
+  final List<double> valores;
+  final List<String> nomes;
 
-  PorcentagemMoedasPage({required this.listaMoeda});
+  PorcentagemPage({required this.valores, required this.nomes});
 
   @override
   Widget build(BuildContext context) {
-    double totalValor = listaMoeda.fold(0, (total, moeda) => total + moeda.valor);
+    if (valores.isEmpty) {
+      // Lida com o caso em que a lista de valores está vazia
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFFFF7A00),
+          title: const Text('Porcentagem'),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Text(
+            'Nenhum valor disponível para calcular porcentagem.',
+            style: TextStyle(fontSize: 18),
+          ),
+        ),
+      );
+    }
+
+    double total = valores.reduce((value, element) => value + element);
+    List<double> porcentagens =
+        valores.map((valor) => (valor / total) * 100).toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Porcentagem das Moedas'),
+        backgroundColor: Color(0xFFFF7A00),
+        title: const Text('Porcentagem'),
+        centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            for (Moeda moeda in listaMoeda)
-              PorcentagemMoedaItem(
-                moeda: moeda,
-                totalValor: totalValor,
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            floating: false,
+            expandedHeight: 100.0,
+            backgroundColor: Colors.transparent,
+            flexibleSpace: Center(
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 4),
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                width: MediaQuery.of(context).size.width *
+                    0.5, // Defina a largura desejada aqui
+                child: Text(
+                  'Total: 100%',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
               ),
-          ],
-        ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Container(
+                  padding: EdgeInsets.all(5),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 30), // Ajuste aqui
+                    padding: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 2), // Espaçamento vertical
+                        Text(
+                          '${nomes[index].toUpperCase()}: ${porcentagens[index].toStringAsFixed(2)}%',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              childCount: valores.length,
+            ),
+          ),
+        ],
       ),
-    );
-  }
-}
-
-class PorcentagemMoedaItem extends StatelessWidget {
-  final Moeda moeda;
-  final double totalValor;
-
-  PorcentagemMoedaItem({required this.moeda, required this.totalValor});
-
-  @override
-  Widget build(BuildContext context) {
-    double porcentagem = (moeda.valor / totalValor) * 100;
-    String porcentagemFormatada = porcentagem.toStringAsFixed(2);
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text('${moeda.title}: $porcentagemFormatada%'),
     );
   }
 }
