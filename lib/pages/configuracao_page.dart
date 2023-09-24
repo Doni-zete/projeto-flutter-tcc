@@ -23,7 +23,7 @@ class ConfiguracaoPage extends StatelessWidget {
       ),
       body: FutureBuilder<double>(
         // Substitua esta função pelo método que recupera o saldo do Firestore
-        //future: _getSaldoFromFirestore(user),
+        future: _getSaldoFromFirestore(user),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Se os dados ainda estão sendo carregados, exiba um indicador de carregamento
@@ -78,5 +78,32 @@ class ConfiguracaoPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<double> _getSaldoFromFirestore(User? user) async {
+    if (user == null) {
+      return 0.0;
+    }
+
+    try {
+      final userId = user.uid;
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(userId)
+          .collection('moedas')
+          .get();
+
+      double saldoTotal = 0.0;
+      for (final doc in querySnapshot.docs) {
+        final moedaData = doc.data() as Map<String, dynamic>;
+        final valor = moedaData['valor'] as double;
+        saldoTotal += valor;
+      }
+
+      return saldoTotal;
+    } catch (e) {
+      print('Erro ao buscar dados do Firestore: $e');
+      return 0.0;
+    }
   }
 }
