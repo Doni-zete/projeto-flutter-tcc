@@ -17,6 +17,7 @@ class PorcentagemRepository extends ChangeNotifier {
     _savePorcentagens(); // Salvar as novas porcentagens no SharedPreferences
     notifyListeners();
   }
+  
 
   // Carregar as porcentagens salvas anteriormente
   Future<void> _loadPorcentagens() async {
