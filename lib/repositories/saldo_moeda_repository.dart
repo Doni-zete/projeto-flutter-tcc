@@ -1,45 +1,42 @@
 import 'package:cripto_github/models/moeda.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SaldoRepository extends ChangeNotifier {
   double _saldo = 0.0;
-  static const _saldoKey = 'saldo_key'; // Chave para armazenar o saldo
 
   SaldoRepository() {
-    _loadSaldo(); // Carregar o saldo salvo anteriormente ao criar o modelo
+    _calculateSaldoFromFirestore();
   }
 
   double get saldo => _saldo;
 
   void atualizarSaldo(double novoSaldo) {
     _saldo = novoSaldo;
-    _saveSaldo(); // Salvar o novo saldo no SharedPreferences
     notifyListeners();
   }
 
-  // Carregar o saldo salvo anteriormente
-  Future<void> _loadSaldo() async {
-    final prefs = await SharedPreferences.getInstance();
-    final saldo = prefs.getDouble(_saldoKey);
-    if (saldo != null) {
-      _saldo = saldo;
+  // Método para calcular o saldo total a partir do Firestore
+  Future<void> _calculateSaldoFromFirestore() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final userId = user.uid;
+      final firestore = FirebaseFirestore.instance;
+      final querySnapshot = await firestore
+          .collection('moedas')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      double saldoTotal = 0.0;
+      for (final doc in querySnapshot.docs) {
+        final moeda = Moeda.fromJson(doc.data() as Map<String, dynamic>);
+        saldoTotal += moeda.valor;
+      }
+
+      _saldo = saldoTotal;
       notifyListeners();
     }
-  }
-
-  // Salvar o saldo no SharedPreferences
-  Future<void> _saveSaldo() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_saldoKey, _saldo);
-  }
-
-  // Adicionar um método para calcular o saldo total a partir de uma lista de moedas
-  double calcularSaldoTotal(List<Moeda> moedas) {
-    double saldoTotal = 0.0;
-    for (Moeda moeda in moedas) {
-      saldoTotal += moeda.valor;
-    }
-    return saldoTotal;
   }
 }
