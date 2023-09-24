@@ -7,7 +7,7 @@ class RegistroPage extends StatelessWidget {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void _register(BuildContext context) async {
+  Future<void> _register(BuildContext context) async {
     String email = _emailController.text;
     String password = _passwordController.text;
 
@@ -28,7 +28,9 @@ class RegistroPage extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context); // Fecha o diálogo de sucesso
+                    Navigator.pushNamed(
+                        context, '/login'); // Vai para a tela de login
                   },
                   child: const Text("OK"),
                 ),
@@ -71,9 +73,9 @@ class RegistroPage extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 30),
           Image.asset(
-            'assets/checklist.png',
-            width: 100,
-            height: 100,
+            'assets/wallet-logo.png',
+            width: 170,
+            height: 170,
           ),
           const SizedBox(height: 16.0),
           Expanded(
@@ -92,6 +94,7 @@ class RegistroPage extends StatelessWidget {
                     const SizedBox(height: 12.0),
                     TextField(
                       controller: _passwordController,
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: "Senha",
                         border: OutlineInputBorder(),
@@ -99,12 +102,24 @@ class RegistroPage extends StatelessWidget {
                       obscureText: true,
                     ),
                     const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: () => _register(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
+                    SizedBox(
+                      width: 320.0,
+                      child: TextButton(
+                        onPressed: () {
+                          _register(context);
+                        },
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                        ),
+                        child: const Text(
+                          "Registrar",
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                      child: const Text("Registrar"),
                     ),
                   ],
                 ),
