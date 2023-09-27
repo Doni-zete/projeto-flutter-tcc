@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-const String apiKey = 'de4cd560-617e-4737-8a3a-487d0a668c3d';
+const String apiKey = 'sua-key';
 const String requestBaseUrl =
     "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest";
 
